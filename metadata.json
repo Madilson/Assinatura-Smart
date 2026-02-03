@@ -1,0 +1,5 @@
+{
+  "name": "Gerador de Assinatura Digital",
+  "description": "Crie uma assinatura digital com nome e registro no tamanho 96x68 pixels. Faça o upload da sua assinatura, preencha seus dados e baixe a imagem final em alta qualidade.",
+  "requestFramePermissions": []
+}
