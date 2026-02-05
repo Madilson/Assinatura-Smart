@@ -26,8 +26,18 @@ const applySharpen = (ctx: CanvasRenderingContext2D, width: number, height: numb
   const output = new Uint8ClampedArray(data.length);
   const kernel = [0, -weight, 0, -weight, 1 + 4 * weight, -weight, 0, -weight, 0];
 
-  for (let y = 1; y < height - 1; y++) {
-    for (let x = 1; x < width - 1; x++) {
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const idx = (y * width + x) * 4;
+      // Para as bordas extremas (0 ou max), mantemos o pixel original para evitar linhas pretas
+      if (y === 0 || y === height - 1 || x === 0 || x === width - 1) {
+        output[idx] = data[idx];
+        output[idx + 1] = data[idx + 1];
+        output[idx + 2] = data[idx + 2];
+        output[idx + 3] = data[idx + 3];
+        continue;
+      }
+
       for (let c = 0; c < 3; c++) {
         let sum = 0;
         for (let ky = 0; ky < 3; ky++) {
@@ -36,9 +46,9 @@ const applySharpen = (ctx: CanvasRenderingContext2D, width: number, height: numb
             sum += data[pos] * kernel[ky * 3 + kx];
           }
         }
-        output[(y * width + x) * 4 + c] = sum;
+        output[idx + c] = Math.max(0, Math.min(255, sum));
       }
-      output[(y * width + x) * 4 + 3] = data[(y * width + x) * 4 + 3];
+      output[idx + 3] = data[idx + 3];
     }
   }
   ctx.putImageData(new ImageData(output, width, height), 0, 0);
@@ -226,9 +236,12 @@ export const SignatureCanvas: React.FC<SignatureCanvasProps> = ({
         width: Math.min(window.innerWidth * 0.4, targetWidth * 4) + 'px', 
         height: 'auto', 
         aspectRatio: `${targetWidth}/${targetHeight}`,
-        imageRendering: 'pixelated'
+        imageRendering: 'pixelated',
+        border: 'none',
+        outline: 'none',
+        display: 'block'
       }}
-      className="bg-white cursor-move rounded-sm"
+      className="bg-white cursor-move border-0"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={() => setIsDragging(false)}

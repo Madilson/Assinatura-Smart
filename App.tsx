@@ -71,7 +71,7 @@ const App: React.FC = () => {
         <div className="w-full md:w-1/2 p-6 md:p-8 space-y-6 border-r border-slate-100 overflow-y-auto max-h-[95vh]">
           <header className="border-b border-slate-100 pb-4">
             <h1 className="text-2xl font-black tracking-tight text-indigo-600">Assinatura Pro HD</h1>
-            <p className="text-slate-500 text-xs">Sem contornos. Ajuste fino para exportação BMP.</p>
+            <p className="text-slate-500 text-xs">Ajuste técnico sem bordas para exportação industrial.</p>
           </header>
 
           <section className="space-y-4">
@@ -141,7 +141,7 @@ const App: React.FC = () => {
             
             <div className="flex justify-center items-center min-h-[300px]">
               {isFormValid ? (
-                <div className="relative group transition-all">
+                <div className="relative group transition-all border-none outline-none">
                   <SignatureCanvas 
                     name={name}
                     registration={registration}
@@ -164,7 +164,7 @@ const App: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="w-[240px] h-[170px] border-2 border-dashed border-slate-800 rounded-3xl flex flex-col items-center justify-center text-slate-700">
+                <div className="w-[240px] h-[170px] border border-dashed border-slate-700/50 rounded-3xl flex flex-col items-center justify-center text-slate-700">
                   <ImageIcon className="w-10 h-10 mb-4 opacity-10" />
                   <span className="text-[10px] uppercase font-black tracking-widest">Aguardando Imagem</span>
                 </div>
